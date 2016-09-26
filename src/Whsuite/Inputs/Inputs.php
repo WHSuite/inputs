@@ -55,6 +55,28 @@ class Inputs
         $post = ($clean) ? $this->clean($_POST) : $_POST;
         $get = ($clean) ? $this->clean($_GET) : $_GET;
 
+        if (isset($post) && ! empty($post)) {
+            try {
+                if (! isset($post['__csrf_value'])) {
+                    throw new \Core\Exceptions\CsrfValidationErrorException;
+                } else {
+                    $csrf_value = $post['__csrf_value'];
+                    $validToken = \App::get('session')->getCsrfToken()->isValid($csrf_value);
+
+                    if (! $validToken) {
+                        throw new \Core\Exceptions\CsrfValidationErrorException;
+                    }
+                }
+            } catch (\Core\Exceptions\CsrfValidationErrorException $e) {
+                \App\Libraries\Message::set(
+                    'There was a problem determining the validity of the form request, please try again.',
+                    'fail',
+                    \App\Libraries\Message::PROTECT
+                );
+                return false;
+            }
+        }
+
         $this->data->set('post', $post);
         $this->data->set('get', $get);
         $this->data->set('files', $_FILES);
