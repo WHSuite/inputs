@@ -1,0 +1,24 @@
+{
+    "name": "whsuite/inputs",
+    "description": "Input helpers for WHSuite Framework",
+    "license": "Private",
+    "authors": [
+        {
+            "name": "WHSuite",
+            "email": "info@whsuite.com"
+        },
+        {
+            "name": "Audun Larsen",
+            "email": "larsen@xqus.com"
+        }
+    ],
+    "require": {
+        "dflydev/dot-access-data": "1.0.*@dev"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "Whsuite\\Inputs" : "src/"
+        }
+    }
+}
